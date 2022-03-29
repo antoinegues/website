@@ -52,24 +52,11 @@ body {
         }
 
 
-        @media (max-width: 650px) {
-          & > h1 {
-            font-size: 48px;
-          }
-
-          & > h2 {
-            font-size: 32px;
-            margin: 0 0 -10px 0px;
-          }
-        }
-
-
         &.main {
 
           & > h2 {
             margin: 0 0 -15px 10px;
           }
-
 
 
           & > .logo-list {
@@ -95,7 +82,11 @@ body {
           }
 
           @media (max-width: 650px) {
+            & > h1 {
+              font-size: max(40px,15vw);
+            }
             & > h2 {
+              font-size: max(30px,10vw);
               margin: 0 0 -10px 5px;
             }
             & > .logo-list {
@@ -104,8 +95,10 @@ body {
             }
           }
 
-        }
 
+
+
+        }
 
 
         &.skills {
@@ -126,6 +119,7 @@ body {
     height: 100vh;
     opacity: 0.3;
     z-index: -1;
+    overflow: hidden;
 
     & > .code-line {
       height: 20px;
