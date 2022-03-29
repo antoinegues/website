@@ -1,0 +1,120 @@
+// JS de test pour 3D
+
+import * as THREE from "three";
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+
+
+const color = [0xE67E22, 0x2ECC71, 0xF1C40F, 0x3498DB, 0xE74C3C];
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+let SCREEN_WIDTH = window.innerWidth;
+let SCREEN_HEIGHT = window.innerHeight;
+let aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+const frustumSize = 600;
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true
+});
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+document.getElementById("render").appendChild(renderer.domElement);
+
+
+const camera = new THREE.OrthographicCamera(0.5 * frustumSize * aspect / -2, 0.5 * frustumSize * aspect / 2, frustumSize / 2, frustumSize / -2, 10, 1000);
+
+
+const screenSize = 0.5 * frustumSize * aspect;
+
+const scene = new THREE.Scene();
+const group3D =  new THREE.Object3D();
+
+
+group3D.position.set(-screenSize/2 + 5,0,-screenSize - 200)
+
+for (let i = 0; i < 23; i++){
+    const size = getRandomInt(1,12) * (screenSize/12);
+    const geometry = new THREE.BoxGeometry(size, 20, getRandomInt(1,6)* 200/ 6);
+    const material = new THREE.MeshPhongMaterial({color: color[i % color.length]});
+    const cube = new THREE.Mesh(geometry, material);
+
+
+    cube.position.x = -screenSize/2 + (size /2) + 5
+    cube.position.y = i * 25 - 275;
+    cube.position.z = -screenSize - 100;
+    group3D.attach(cube);
+
+}
+
+
+scene.add(group3D);
+const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000);
+grid.material.opacity = 0.2;
+grid.material.transparent = true;
+//scene.add(grid);
+
+
+const rendererDebug = new THREE.WebGLRenderer({
+});
+rendererDebug.setPixelRatio(window.devicePixelRatio);
+rendererDebug.setSize(window.innerWidth / 2, window.innerHeight);
+//document.getElementById("debug").appendChild(rendererDebug.domElement);
+const cameraOrthoHelper = new THREE.CameraHelper(camera);
+
+//scene.add(cameraOrthoHelper);
+
+const cameratest = new THREE.OrthographicCamera(  SCREEN_WIDTH/ - 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / - 2, 1, 1000 );
+
+
+const controls = new OrbitControls( cameratest, rendererDebug.domElement );
+controls.listenToKeyEvents( window ); // optional
+
+
+controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+controls.dampingFactor = 0.05;
+
+controls.screenSpacePanning = false;
+
+controls.minDistance = 100;
+controls.maxDistance = 500;
+
+controls.maxPolarAngle = Math.PI / 2;
+
+
+const light = new THREE.AmbientLight( 0x505050 ); // soft white light
+scene.add( light );
+const spotLight = new THREE.SpotLight( 0xaaaaaa );
+spotLight.position.set( 0, 0, 200 );
+
+spotLight.castShadow = true;
+
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+
+spotLight.shadow.camera.near = 10;
+spotLight.shadow.camera.far = 4000;
+spotLight.shadow.camera.fov = 30;
+
+scene.add( spotLight );
+
+const lightHelper = new THREE.SpotLightHelper( spotLight );
+scene.add( lightHelper );
+group3D.translateZ(10);
+function animate(){
+
+    requestAnimationFrame(animate);
+    let coef = (document.scrollingElement.scrollTop / (document.body.scrollHeight - window.innerHeight))
+    coef = Math.min(coef,1);
+
+    group3D.rotation.y = coef * (Math.PI / 2);
+
+    cameraOrthoHelper.update();
+    rendererDebug.render(scene, cameratest);
+    renderer.render(scene, camera);
+}
+
+animate();
