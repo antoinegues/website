@@ -1,5 +1,6 @@
 const colorCodeLine = ["#E67E22", "#2ECC71", "#F1C40F", "#3498DB", "#E74C3C"];
 history.scrollRestoration = 'manual';
+
 /**
  * Generate a random number between min and max
  * @param min
@@ -13,25 +14,29 @@ function getRandomInt(min, max){
 }
 
 
+function lineMaxWidth(){
+    if (window.innerWidth > 1000){
+        return window.innerWidth / 2;
+    }
+    else{
+        return (window.innerWidth - window.innerWidth * 0.1);
+    }
+}
+
 /**
  * GenerateLineCode for the background
  */
 function generateCodeLine(){
     const nb = Math.floor((window.innerHeight) / 30);
     const codeLineDiv = document.getElementById("code-line-container");
+    const lineWidth = lineMaxWidth();
     removeCodeLine();
-    let lastColorIndex = -1;
     let lastWidthFactor = -1;
 
     for (let i = 0; i < nb; i++){
         let codeLine = document.createElement("div");
         codeLine.classList.add('code-line');
-        let colorIndex;
-        do{
-            colorIndex = getRandomInt(0, colorCodeLine.length);
-        }
-        while (lastColorIndex === colorIndex);
-        lastColorIndex = colorIndex;
+
 
         let widthFactor;
         do{
@@ -40,8 +45,8 @@ function generateCodeLine(){
         while (lastWidthFactor === widthFactor);
         lastWidthFactor = widthFactor;
 
-        codeLine.style.backgroundColor = colorCodeLine[colorIndex];
-        codeLine.style.width = ((window.innerWidth - window.innerWidth*0.1) / 24) * widthFactor + 'px';
+        codeLine.style.backgroundColor = colorCodeLine[i % colorCodeLine.length];
+        codeLine.style.width = (lineWidth / 24) * widthFactor + 'px';
 
         setTimeout(() => {
             codeLineDiv.append(codeLine);
@@ -73,12 +78,13 @@ function codeLineGetOut(){
 
 
 let position = 0;
-let reset
+let reset;
+
 function wheelFunctionInit(){
 
     window.addEventListener('wheel', wheelFunction = (e) => {
 
-        if(reset && 50 < Math.abs(e.deltaY)) {
+        if (reset && 50 < Math.abs(e.deltaY)){
             reset = 0;
         }
 
