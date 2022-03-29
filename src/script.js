@@ -3,7 +3,7 @@ history.scrollRestoration = 'manual';
 
 
 let position = 0;
-let reset;
+let lock = false;
 
 
 /**
@@ -88,31 +88,29 @@ function codeLineGetOut(){
 let startY;
 
 function wheelFunctionInit(){
-    let wheelFunction;
-    let touchFunction;
     window.addEventListener('touchstart', (e) => {
         e.preventDefault();
         startY = e.touches[0].pageY;
     });
 
-    window.addEventListener('touchmove', touchFunction = (e) => {
+    window.addEventListener('touchmove', (e) => {
         e.preventDefault();
-
-        if (Math.abs(startY - e.touches[0].pageY) > 50){
-            window.removeEventListener('touchmove', touchFunction);
-            window.removeEventListener('wheel', wheelFunction);
+        if (50 < Math.abs(e.deltaY)){
+            lock = false;
+        }
+        if (!lock && Math.abs(startY - e.touches[0].pageY) > 50){
+            lock = true;
             scrollEvent(startY - e.touches[0].pageY);
         }
     });
 
 
-    window.addEventListener('wheel', wheelFunction = (e) => {
-        if (reset && 50 < Math.abs(e.deltaY)){
-            reset = 0;
+    window.addEventListener('wheel', (e) => {
+        if (50 > Math.abs(e.deltaY)){
+            lock = false;
         }
-        if (!reset && Math.abs(e.deltaY) > 50){
-            window.removeEventListener('touchmove', touchFunction);
-            window.removeEventListener('wheel', wheelFunction);
+        if (!lock && Math.abs(e.deltaY) > 50){
+            lock = true;
             scrollEvent(e.deltaY);
         }
 
@@ -140,10 +138,7 @@ function scrollEvent(offset){
     }
 
 
-    if (position === lastPosition){
-        wheelFunctionInit();
-    }
-    else{
+    if (position !== lastPosition){
         switch (position){
             case 0:
                 generateCodeLine();
@@ -154,14 +149,6 @@ function scrollEvent(offset){
         }
 
         content.style.transform = "translateY(" + -(position * 100) + "vh)";
-        reset = 1;
-        content.addEventListener('transitionend', () => {
-
-
-            wheelFunctionInit();
-
-        }, {once: true});
-
     }
 
 }
