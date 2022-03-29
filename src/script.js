@@ -1,6 +1,11 @@
 const colorCodeLine = ["#E67E22", "#2ECC71", "#F1C40F", "#3498DB", "#E74C3C"];
 history.scrollRestoration = 'manual';
 
+
+let position = 0;
+let reset;
+
+
 /**
  * Generate a random number between min and max
  * @param min
@@ -27,6 +32,10 @@ function lineMaxWidth(){
  * GenerateLineCode for the background
  */
 function generateCodeLine(){
+    if(position !== 0) {
+        return;
+    }
+
     const nb = Math.floor((window.innerHeight) / 30);
     const codeLineDiv = document.getElementById("code-line-container");
     const lineWidth = lineMaxWidth();
@@ -76,9 +85,6 @@ function codeLineGetOut(){
 
 }
 
-
-let position = 0;
-let reset;
 
 function wheelFunctionInit(){
     let wheelFunction;
