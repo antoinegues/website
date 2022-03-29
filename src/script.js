@@ -35,13 +35,13 @@ function generateCodeLine(){
 
         let widthFactor;
         do{
-            widthFactor = getRandomInt(1, 12);
+            widthFactor = getRandomInt(1, 24);
         }
         while (lastWidthFactor === widthFactor);
         lastWidthFactor = widthFactor;
 
         codeLine.style.backgroundColor = colorCodeLine[colorIndex];
-        codeLine.style.width = ((window.innerWidth / 2) / 12) * widthFactor + 'px';
+        codeLine.style.width = ((window.innerWidth - window.innerWidth*0.1) / 24) * widthFactor + 'px';
 
         setTimeout(() => {
             codeLineDiv.append(codeLine);
@@ -136,7 +136,7 @@ function scrollEvent(e){
 
 
 generateCodeLine();
-//wheelFunctionInit();
+wheelFunctionInit();
 
 let lastInterval;
 window.addEventListener('resize', () => {
