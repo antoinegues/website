@@ -32,7 +32,7 @@ function lineMaxWidth(){
  * GenerateLineCode for the background
  */
 function generateCodeLine(){
-    if(position !== 0) {
+    if (position !== 0){
         return;
     }
 
@@ -85,24 +85,38 @@ function codeLineGetOut(){
 
 }
 
+let startY;
 
 function wheelFunctionInit(){
-    let wheelFunction  = (e) => {
+    let wheelFunction;
+    let touchFunction;
+    window.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startY = e.touches[0].pageY;
+    });
 
+    window.addEventListener('touchmove', touchFunction = (e) => {
+        e.preventDefault();
+
+        if (Math.abs(startY - e.touches[0].pageY) > 50){
+            window.removeEventListener('touchmove', touchFunction);
+            window.removeEventListener('wheel', wheelFunction);
+            scrollEvent(startY - e.touches[0].pageY);
+        }
+    });
+
+
+    window.addEventListener('wheel', wheelFunction = (e) => {
         if (reset && 50 < Math.abs(e.deltaY)){
             reset = 0;
         }
-
-        e.stopPropagation();
         if (!reset && Math.abs(e.deltaY) > 50){
+            window.removeEventListener('touchmove', touchFunction);
             window.removeEventListener('wheel', wheelFunction);
-            scrollEvent(e);
+            scrollEvent(e.deltaY);
         }
 
-    }
-    window.addEventListener('touchmove', wheelFunction);
-
-    window.addEventListener('wheel', wheelFunction);
+    });
 }
 
 function removeCodeLine(){
@@ -114,11 +128,11 @@ function removeCodeLine(){
 }
 
 
-function scrollEvent(e){
+function scrollEvent(offset){
     let content = document.getElementById('content');
     let screenList = content.querySelectorAll('.screen');
     let lastPosition = position;
-    if (e.deltaY > 0){
+    if (offset > 0){
         position = Math.min(position + 1, screenList.length - 1);
     }
     else{
@@ -142,7 +156,10 @@ function scrollEvent(e){
         content.style.transform = "translateY(" + -(position * 100) + "vh)";
         reset = 1;
         content.addEventListener('transitionend', () => {
+
+
             wheelFunctionInit();
+
         }, {once: true});
 
     }
