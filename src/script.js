@@ -87,8 +87,7 @@ function codeLineGetOut(){
 
 
 function wheelFunctionInit(){
-    let wheelFunction;
-    window.addEventListener('wheel', wheelFunction = (e) => {
+    let wheelFunction  = (e) => {
 
         if (reset && 50 < Math.abs(e.deltaY)){
             reset = 0;
@@ -99,7 +98,11 @@ function wheelFunctionInit(){
             window.removeEventListener('wheel', wheelFunction);
             scrollEvent(e);
         }
-    });
+
+    }
+    window.addEventListener('touchmove', wheelFunction);
+
+    window.addEventListener('wheel', wheelFunction);
 }
 
 function removeCodeLine(){
