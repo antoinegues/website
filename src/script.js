@@ -106,10 +106,10 @@ function wheelFunctionInit(){
 
 
     window.addEventListener('wheel', (e) => {
-        if (50 > Math.abs(e.deltaY)){
+        if (100 > Math.abs(e.deltaY)){
             lock = false;
         }
-        if (!lock && Math.abs(e.deltaY) > 50){
+        if (!lock && Math.abs(e.deltaY) > 100){
             lock = true;
             scrollEvent(e.deltaY);
         }
