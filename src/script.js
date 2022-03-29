@@ -81,7 +81,7 @@ let position = 0;
 let reset;
 
 function wheelFunctionInit(){
-
+    let wheelFunction;
     window.addEventListener('wheel', wheelFunction = (e) => {
 
         if (reset && 50 < Math.abs(e.deltaY)){
