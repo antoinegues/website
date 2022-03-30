@@ -127,14 +127,14 @@ body {
       animation: codeLineGetIn 250ms;
 
       &.get-out {
-        animation: codeLineGetOut 500ms;
+        animation: codeLineGetOut 250ms;
         transform: translate(-100vw);
       }
     }
 
     @keyframes codeLineGetIn {
       0% {
-        transform: translate(100vw);
+        transform: translate(-100vw);
       }
       100% {
         transform: none

@@ -5,7 +5,6 @@ history.scrollRestoration = 'manual';
 let position = 0;
 let lock = false;
 
-
 /**
  * Generate a random number between min and max
  * @param min
@@ -28,6 +27,14 @@ function lineMaxWidth(){
     }
 }
 
+
+function scrollHandler(offset){
+    if (!lock && Math.abs(offset) > 50){
+        lock = true;
+        scrollEvent(offset);
+    }
+}
+
 /**
  * GenerateLineCode for the background
  */
@@ -43,6 +50,7 @@ function generateCodeLine(){
     let lastWidthFactor = -1;
 
     for (let i = 0; i < nb; i++){
+
         let codeLine = document.createElement("div");
         codeLine.classList.add('code-line');
 
@@ -95,25 +103,12 @@ function wheelFunctionInit(){
 
     window.addEventListener('touchmove', (e) => {
         e.preventDefault();
-        if (50 < Math.abs(e.deltaY)){
-            lock = false;
-        }
-        if (!lock && Math.abs(startY - e.touches[0].pageY) > 50){
-            lock = true;
-            scrollEvent(startY - e.touches[0].pageY);
-        }
+        scrollHandler(startY - e.touches[0].pageY);
     });
 
 
     window.addEventListener('wheel', (e) => {
-        if (150 > Math.abs(e.deltaY)){
-            lock = false;
-        }
-        if (!lock && Math.abs(e.deltaY) > 150){
-            lock = true;
-            scrollEvent(e.deltaY);
-        }
-
+        scrollHandler(e.deltaY);
     });
 }
 
@@ -138,7 +133,10 @@ function scrollEvent(offset){
     }
 
 
-    if (position !== lastPosition){
+    if (position === lastPosition){
+        lock = false;
+    }
+    else{
         switch (position){
             case 0:
                 generateCodeLine();
@@ -149,6 +147,11 @@ function scrollEvent(offset){
         }
 
         content.style.transform = "translateY(" + -(position * 100) + "vh)";
+        content.addEventListener('transitionend', () => {
+            setTimeout(() => {
+                lock = false;
+            }, 150);
+        }, {once: true});
     }
 
 }
@@ -159,6 +162,7 @@ wheelFunctionInit();
 
 let lastInterval;
 window.addEventListener('resize', () => {
+    codeLineGetOut();
     clearInterval(lastInterval);
     lastInterval = setTimeout(() => {
         generateCodeLine();
