@@ -3,7 +3,6 @@ history.scrollRestoration = 'manual';
 
 
 let position = 0;
-let lock = false;
 
 /**
  * Generate a random number between min and max
@@ -28,12 +27,6 @@ function lineMaxWidth(){
 }
 
 
-function scrollHandler(offset){
-    if (!lock && Math.abs(offset) > 50){
-        lock = true;
-        scrollEvent(offset);
-    }
-}
 
 /**
  * GenerateLineCode for the background
@@ -93,24 +86,8 @@ function codeLineGetOut(){
 
 }
 
-let startY;
-
-function wheelFunctionInit(){
-    window.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startY = e.touches[0].pageY;
-    });
-
-    window.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        scrollHandler(startY - e.touches[0].pageY);
-    });
 
 
-    window.addEventListener('wheel', (e) => {
-        scrollHandler(e.deltaY);
-    });
-}
 
 function removeCodeLine(){
     const codeLineDiv = document.getElementById("code-line-container");
@@ -121,44 +98,8 @@ function removeCodeLine(){
 }
 
 
-function scrollEvent(offset){
-    let content = document.getElementById('content');
-    let screenList = content.querySelectorAll('.screen');
-    let lastPosition = position;
-    if (offset > 0){
-        position = Math.min(position + 1, screenList.length - 1);
-    }
-    else{
-        position = Math.max(position - 1, 0);
-    }
-
-
-    if (position === lastPosition){
-        lock = false;
-    }
-    else{
-        switch (position){
-            case 0:
-                generateCodeLine();
-                break;
-            case 1 :
-                codeLineGetOut();
-                break;
-        }
-
-        content.style.transform = "translateY(" + -(position * 100) + "vh)";
-        content.addEventListener('transitionend', () => {
-            setTimeout(() => {
-                lock = false;
-            }, 150);
-        }, {once: true});
-    }
-
-}
-
 
 generateCodeLine();
-wheelFunctionInit();
 
 let lastInterval;
 window.addEventListener('resize', () => {

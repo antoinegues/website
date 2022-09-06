@@ -7,8 +7,8 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  overflow-scrolling: auto;
 
+  touch-action: none;
   #content {
     width: 100%;
     height: 100%;
