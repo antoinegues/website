@@ -1,4 +1,9 @@
 {
+  "name": "website",
+  "scripts": {
+    "build": "parcel build src/index.html",
+    "dev": "parcel src/index.html"
+  },
   "devDependencies": {
     "@parcel/resolver-glob": "^2.8.0",
     "@parcel/transformer-sass": "^2.4.0",
