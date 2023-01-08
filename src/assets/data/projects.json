@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Website",
+    "desc": "The goal of this web project is to create an online showcase of my work. The objective of this website is to be incrementally improved over time as I learn more about web development, UX, and UI design.",
+    "github": "https://github.com/antoinegues/site-web",
+    "img": "site-web.png",
+    "logo": "site-web-logo.png"
+  }
+]

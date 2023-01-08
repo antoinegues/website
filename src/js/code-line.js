@@ -10,46 +10,43 @@ let position = 0;
  * @param max
  * @return {number}
  */
-function getRandomInt(min, max){
+ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 
-function lineMaxWidth(){
-    if (window.innerWidth > 1000){
-        return window.innerWidth / 2;
-    }
-    else{
+function lineMaxWidth() {
+    if (window.innerWidth > 1000) {
+        return window.innerWidth / 2.5;
+    } else {
         return (window.innerWidth - window.innerWidth * 0.1);
     }
 }
 
 
-
 /**
  * GenerateLineCode for the background
  */
-function generateCodeLine(){
-    if (position !== 0){
+function generateCodeLine() {
+    if (position !== 0) {
         return;
     }
 
-    const nb = Math.floor((window.innerHeight) / 30);
     const codeLineDiv = document.getElementById("code-line-container");
+    const nb = Math.floor((codeLineDiv.offsetHeight) / 30);
     const lineWidth = lineMaxWidth();
     removeCodeLine();
     let lastWidthFactor = -1;
 
-    for (let i = 0; i < nb; i++){
+    for (let i = 0; i < nb; i++) {
 
         let codeLine = document.createElement("div");
         codeLine.classList.add('code-line');
 
-
         let widthFactor;
-        do{
+        do {
             widthFactor = getRandomInt(1, 24);
         }
         while (lastWidthFactor === widthFactor);
@@ -66,7 +63,7 @@ function generateCodeLine(){
 
 }
 
-function codeLineGetOut(){
+function codeLineGetOut() {
     const codeLineDivChild = document.getElementById("code-line-container").querySelectorAll('.code-line');
 
     let i = 0;
@@ -74,7 +71,7 @@ function codeLineGetOut(){
         setTimeout(() => {
 
             selector.classList.add('get-out');
-            if (codeLineDivChild.length - 1 === i){
+            if (codeLineDivChild.length - 1 === i) {
                 selector.addEventListener('animationend', () => {
                     removeCodeLine();
                 }, {once: true});
@@ -87,16 +84,13 @@ function codeLineGetOut(){
 }
 
 
-
-
-function removeCodeLine(){
+function removeCodeLine() {
     const codeLineDiv = document.getElementById("code-line-container");
 
-    while (codeLineDiv.firstChild){
+    while (codeLineDiv.firstChild) {
         codeLineDiv.removeChild(codeLineDiv.lastChild);
     }
 }
-
 
 
 generateCodeLine();

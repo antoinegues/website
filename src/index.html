@@ -3,35 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <title>Antoine GUESPIN</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.scss"/>
-    <script src="script.js" type="module"></script>
+    <script src="./js/code-line.js" type="module" async></script>
+    <script src="./js/navigate.js" type="module" async></script>
+    <script src="./js/project-slider.js" type="module" async></script>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" type="image/png" href="assets/img/logo.png"/>
+    <meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
 </head>
 <body>
+<input type="checkbox" id="checkbox-mode" class="material-symbols-outlined">
 
-<div id="code-line-container">
-
-</div>
-
-<div id="content">
-    <div class="screen">
-
-        <div class="main title">
-            <h2>Antoine</h2>
-            <h1>GUESPIN</h1>
-            <div class="logo-list">
-                <a href="https://github.com/antoinegues" target="_blank"><img src="assets/img/github.png" alt="Mon github"/></a>
-
-                <a href="https://www.linkedin.com/in/antoine-guespin-5733991b2/" target="_blank"><img src="assets/img/linkedin.png" alt="Mon Linkedin"/></a>
-
+<ul id="screen-container">
+    <li class="screen" id="home">
+        <div class="screen-content home">
+            <div id="code-line-container"></div>
+            <div class="home-title">
+                <h2>Antoine</h2>
+                <h1>GUESPIN</h1>
+                <h3>Software engineer</h3>
             </div>
         </div>
-    </div>
-</div>
+
+        <div class="navigator down">
+            <span class="navigator-title">About me</span>
+            <span class="material-symbols-outlined navigator-icon">arrow_circle_down</span>
+        </div>
+    </li>
+    <li class="screen" id="about-me">
+        <div class="navigator up">
+            <span class="navigator-title">Home</span>
+            <span class="material-symbols-outlined navigator-icon">arrow_circle_down</span>
+        </div>
+
+        <div class="screen-content about-me">
+            <img src="assets/img/pp.png" class="about-me-picture" alt="Profile picture">
+            <div class="about-me-container">
+                <h2 class="about-me-container-title">About Me</h2>
+                <p class="about-me-container-desc">Passionate about computer science, I’m proud of studying IT. I am currently
+                    in computer engineering
+                    school at ENSICAEN in apprenticeship at Le Petit Vapoteur.</p>
+            </div>
+        </div>
+
+        <div class="navigator down">
+            <span class="navigator-title">PoRtfolio</span>
+            <span class="material-symbols-outlined navigator-icon">arrow_circle_down</span>
+        </div>
+    </li>
+    <li class="screen" id="portfolio">
+        <div class="navigator up">
+            <span class="navigator-title">About me</span>
+            <span class="material-symbols-outlined navigator-icon">arrow_circle_down</span>
+        </div>
+
+        <div class="screen-content portfolio">
+            <img class="portfolio-image" alt="image of the project">
+            <div class="portfolio-content">
+                <div class="portfolio-content-header">
+                    <img class="portfolio-content-header-logo" alt="logo of the project">
+                    <h2 class="portfolio-content-header-name"></h2>
+                </div>
+                <p class="portfolio-content-desc"></p>
+                <div class="portfolio-content-action">
+                    <a class="portfolio-content-action-github button button-text" target="_blank">See on github</a>
+                    <div class="portfolio-content-action-navigate">
+                        <div class="material-symbols-outlined portfolio-content-action-navigate-previous button button-icon">
+                            skip_previous
+                        </div>
+                        <div class="material-symbols-outlined  portfolio-content-action-navigate-next button button-icon">
+                            skip_next
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="navigator down">
+            <span class="navigator-title">Contact me</span>
+            <span class="material-symbols-outlined navigator-icon">arrow_circle_down</span>
+        </div>
+    </li>
+
+    <li class="screen" id="contact-me">
+
+        <div class="navigator up">
+            <span class="navigator-title">PoRtfolio</span>
+            <span class="material-symbols-outlined navigator-icon">arrow_circle_down</span>
+        </div>
+
+        <div class="screen-content contact-me">
+            <h2 class="contact-header">Contact Me</h2>
+            <div class="contact-me-buttons">
+                <a class="contact-me-buttons-github button button-text" href="https://github.com/antoinegues"
+                   target="_blank">Github</a>
+                <a class="contact-me-buttons-linkedin button button-text"
+                   href="https://www.linkedin.com/in/antoine-guespin/" target="_blank">Linkedin</a>
+                <a class="contact-me-buttons-mail button button-text" href="mailto: antoineguespin@gmail.com">Mail</a>
+            </div>
+
+
+        </div>
+        <p class="screen-footer">Made with ❤️ by me.</p>
+    </li>
+</ul>
 
 </body>
 </html>
